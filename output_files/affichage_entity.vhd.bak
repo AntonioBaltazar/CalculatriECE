@@ -1,0 +1,9 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.std_logic_unsigned.all;
+
+entity affichage_entity is
+					
+					port(	A : in std_logic_vector ( 3 downto 0) ;		--- Correspond à l'operande A ---
+							B : in std_logic_vector ( 3 downto 0) ;		--- Correspond à l'opérande B ---
+							res : in std_logic_vector (3 downto 0);		

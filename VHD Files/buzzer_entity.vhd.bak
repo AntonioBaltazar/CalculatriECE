@@ -1,0 +1,44 @@
+library IEEE;
+use IEEE.numeric_std.all;
+use IEEE.std_logic_1164.all;
+use IEEE.std_logic_unsigned.all;
+ 
+entity buzzer_entity is                                                                                     
+        port ( 
+                  A : in std_logic_vector( 3 downto 0 );            --- Opérande A pour les calculs via le FPGA ---
+                  B : in std_logic_vector( 3 downto 0 );            --- Opérande B pour les caluls via le FPGA ---
+                  Res : out std_logic_vector( 7 downto 0);          --- Résultat des opérations entre A et B ---
+                                                                                                                 
+                  cla_A : out std_logic_vector( 3 downto 0 );       --- Opérande A pour les calculs via le CLA ---
+                  cla_B : out std_logic_vector( 3 downto 0 );       --- Opérande B pour les caluls via le CLA ---
+                  cla_Res : in std_logic_vector( 3 downto 0);       --- Résultat des opérations entre A et B via le CLA ---
+                                                                                                                 
+                  b_cla : in std_logic;                             --- Bouton permettant de choisir entre le fpga et l'addditonneur pour les opérations ---
+                  b_operation : in std_logic;                       --- Bouton permettant de choisir le type d'opération ---
+
+buzzer : out std_logic;
+LED : out std_logic;
+LED2 : out std_logic;
+i_signe : in std_logic;
+i2_signe : in std_logic
+); 
+end calcul_entity;
+
+
+architecture buzzer_archi of buzzer_entity is 
+ 
+signal cmpt_cla : integer := 1 ;
+signal cmpt_operation : integer := 1;
+Variable (compteur : integer :=0);
+
+begin
+
+while (compteur < Res ) loop        --- le buzzer bipe pendant une demi seconde toute les demi-seconde ---
+	buzzer = '1';
+	wait for 500000 ns;
+	buzzer = '0';
+	wait for 500000 ns;
+	compteur := compteur+1;
+end loop;
+
+end buzzer_archi;

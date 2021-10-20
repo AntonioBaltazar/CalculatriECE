@@ -1,0 +1,10 @@
+
+State Machine - |Calculatrice_entity|nec_receiver:S1|state
+Name state.check_data state.read_data state.check_LC_off_count state.read_LC_off state.check_LC_on_count state.read_LC_on state.init 
+state.init 0 0 0 0 0 0 0 
+state.read_LC_on 0 0 0 0 0 1 1 
+state.check_LC_on_count 0 0 0 0 1 0 1 
+state.read_LC_off 0 0 0 1 0 0 1 
+state.check_LC_off_count 0 0 1 0 0 0 1 
+state.read_data 0 1 0 0 0 0 1 
+state.check_data 1 0 0 0 0 0 1 

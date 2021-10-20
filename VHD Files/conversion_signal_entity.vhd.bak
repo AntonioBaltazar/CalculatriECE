@@ -1,0 +1,16 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.std_logic_unsigned.all;
+
+entity conversion_signal_entity is 
+		port(
+				communication : std_logic_vector(7 downto 0);
+				nv_nombre : std_logic_vector(3 downto 0)
+			 );
+			 
+end conversion_signal_entity;
+
+architecture conversion_signal_archi of conversion_signal_entity is
+begin 
+
+end conversion_signal_archi;

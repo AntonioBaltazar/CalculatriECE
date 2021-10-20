@@ -1,0 +1,75 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.std_logic_unsigned.all;
+
+entity affichage_entity is
+					
+					port(	A : in std_logic_vector ( 3 downto 0) ;				--- Correspond à l'operande A ---
+							B : in std_logic_vector ( 3 downto 0) ;				--- Correspond à l'opérande B ---
+							res : in std_logic_vector (7 downto 0);				--- Correspond au résultat d'une opération faite entre A et B ---
+							
+							affichA : out std_logic_vector ( 15 downto 0);		--- Permet l'affichage de l'opérande A sur les digit 5 et 4 ---
+							affichB : out std_logic_vector (15 downto 0);      --- Permet l'affichage de l'opérande B sur les digit 3 et 2 ---
+							affichRes : out std_logic_vector (15 downto 0)		--- Permet l'affichage de l'opérande B sur les digit 1 et 0 ---
+						 );
+end affichage_entity;
+
+architecture affichage_archi of affichage_entity is 
+
+begin
+
+
+	affichA <= 		   "1111111100000011" WHEN A = "0000" ELSE    --- Chiffre 0 ---
+							"1111111110011111" WHEN A = "0001" ELSE    --- Chiffre 1 ---
+							"1111111100100101" WHEN A = "0010" ELSE 	 --- Chiffre 2 ---
+							"1111111100001101" WHEN A = "0011" ELSE    --- Chiffre 3 ---
+							"1111111110011001" WHEN A = "0100" ELSE    --- Chiffre 4 ---
+							"1111111101001001" WHEN A = "0101" ELSE    --- Chiffre 5 ---
+							"1111111101000001" WHEN A = "0110" ELSE    --- Chiffre 6 ---
+							"1111111100011111" WHEN A = "0111" ELSE    --- Chiffre 7 ---
+							"1111111100000001" WHEN A = "1000" ELSE    --- Chiffre 8 ---
+							"1111111100001001" WHEN A = "1001" ELSE    --- Chiffre 9 ---  
+							"1001111100000011" WHEN A = "1010" ELSE    --- Chiffre 10 ---
+							"1001111110011111" WHEN A = "1011" ELSE    --- Chiffre 11 ---
+							"1001111100100101" WHEN A = "1100" ELSE    --- Chiffre 12 ---
+							"1001111100001101" WHEN A = "1101" ELSE    --- Chiffre 13 ---
+							"1001111110011001" WHEN A = "1110" ELSE    --- Chiffre 14 ---
+							"1001111101001001" WHEN A = "1111" ;       --- Chiffre 15 ---
+
+	
+	affichB <=  		"1111111100000011" WHEN B = "0000" ELSE    --- Chiffre 0 ---
+							"1111111110011111" WHEN B = "0001" ELSE    --- Chiffre 1 ---
+							"1111111100100101" WHEN B = "0010" ELSE 	 --- Chiffre 2 ---
+							"1111111100001101" WHEN B = "0011" ELSE    --- Chiffre 3 ---
+							"1111111110011001" WHEN B = "0100" ELSE    --- Chiffre 4 ---
+							"1111111101001001" WHEN B = "0101" ELSE    --- Chiffre 5 ---
+							"1111111101000001" WHEN B = "0110" ELSE    --- Chiffre 6 ---
+							"1111111100011111" WHEN B = "0111" ELSE    --- Chiffre 7 ---
+							"1111111100000001" WHEN B = "1000" ELSE    --- Chiffre 8 ---
+							"1111111100001001" WHEN B = "1001" ELSE    --- Chiffre 9 ---  
+							"1001111100000011" WHEN B = "1010" ELSE    --- Chiffre 10 ---
+							"1001111110011111" WHEN B = "1011" ELSE    --- Chiffre 11 ---
+							"1001111100100101" WHEN B = "1100" ELSE    --- Chiffre 12 ---
+							"1001111100001101" WHEN B = "1101" ELSE    --- Chiffre 13 ---
+							"1001111110011001" WHEN B = "1110" ELSE    --- Chiffre 14 ---
+							"1001111101001001" WHEN B = "1111" ;       --- Chiffre 15 ---
+
+
+	affichRes <= 		"1111111100000011" WHEN res(3 downto 0) = "0000" ELSE    --- Chiffre 0 ---
+							"1111111110011111" WHEN res(3 downto 0) = "0001" ELSE    --- Chiffre 1 ---
+							"1111111100100101" WHEN res(3 downto 0) = "0010" ELSE 	--- Chiffre 2 ---
+							"1111111100001101" WHEN res(3 downto 0) = "0011" ELSE   	--- Chiffre 3 ---
+							"1111111110011001" WHEN res(3 downto 0) = "0100" ELSE    --- Chiffre 4 ---
+							"1111111101001001" WHEN res(3 downto 0) = "0101" ELSE    --- Chiffre 5 ---
+							"1111111101000001" WHEN res(3 downto 0) = "0110" ELSE    --- Chiffre 6 ---
+							"1111111100011111" WHEN res(3 downto 0) = "0111" ELSE    --- Chiffre 7 ---
+							"1111111100000001" WHEN res(3 downto 0) = "1000" ELSE    --- Chiffre 8 ---
+							"1111111100001001" WHEN res(3 downto 0) = "1001" ELSE    --- Chiffre 9 ---  
+							"1001111100000011" WHEN res(3 downto 0) = "1010" ELSE    --- Chiffre 10 ---
+							"1001111110011111" WHEN res(3 downto 0) = "1011" ELSE    --- Chiffre 11 ---
+							"1001111100100101" WHEN res(3 downto 0) = "1100" ELSE    --- Chiffre 12 ---
+							"1001111100001101" WHEN res(3 downto 0) = "1101" ELSE    --- Chiffre 13 ---
+							"1001111110011001" WHEN res(3 downto 0) = "1110" ELSE    --- Chiffre 14 ---
+							"1001111101001001" WHEN res(3 downto 0) = "1111" ;       --- Chiffre 15 ---
+
+end affichage_archi;

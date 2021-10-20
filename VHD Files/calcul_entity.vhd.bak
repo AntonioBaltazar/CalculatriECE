@@ -1,0 +1,9 @@
+library IEEE;
+use IEEE.numeric_std.all;
+use IEEE.std_logic_unsigned.all;
+
+entity calcul_entity is 
+						
+						port ( A : in std_logic_vector( 3 downto 0 );				--- Opérande A pour les calculs via le FPGA ---
+								 B : in std_logic_vector( 3 downto 0 );				--- Opérande B pour les caluls via le FPGA ---
+								 Res : in std_logic_vector( 3 downto 0);

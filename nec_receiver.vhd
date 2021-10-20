@@ -1,0 +1,300 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.all;
+
+entity nec_receiver is
+generic (
+	-- number of clocks for the leader code_on signal (assume 50MHZ clock)
+	LC_on_max				: integer := 450000
+	);
+port(
+	
+	-- output to display when receiver is receiving data
+	rd_data 				: out STD_LOGIC;
+	
+	-- clock, data input, and system reset
+	
+	clk 					: in STD_LOGIC;
+	data_in 				: in STD_LOGIC;
+	reset 				: in STD_LOGIC;
+	command2 			: out STD_LOGIC_VECTOR( 7 downto 0); --- Allows to send the signal to the top Level entity ---
+
+	
+	command 				: in STD_LOGIC_VECTOR( 7 downto 0)
+
+	);
+end nec_receiver;
+
+architecture bvh of nec_receiver is 
+-- leader code off duration
+-- lengths of symbols '1' and '0'
+-- length of transition time (error)
+constant LC_off_max			: integer := LC_on_max/2;
+constant one_clocks			: integer := LC_on_max/4;
+constant zero_clocks			: integer := LC_on_max/8;	
+constant trans_max			: integer := LC_on_max/50; 
+constant LC_off_repeat_max		: integer := LC_off_max/2; 
+
+------------------------------------------------------------------
+constant max_bits			    : integer := 32;
+-- counter for measuring the duration of the leader code-on signal
+signal reading_LC_on		    : std_logic := '0';
+signal LC_on_counter		    : integer range 0 to LC_on_max+trans_max;
+-- counter for measuring the duration of the leader code-off signal
+signal reading_LC_off		    : std_logic := '0';
+signal LC_off_counter		    : integer range 0 to LC_off_max+trans_max;
+-- counter for measuring the duration of the data signal
+signal reading_data		    : std_logic := '0';
+signal clock_counter		    : integer range 0 to one_clocks+trans_max;
+signal checking_data		    : std_logic := '0';
+-- signal which determine the bit that is communicated
+signal data_bit			    : std_logic := '0';
+
+-- counter to keep track of the number of bits transmitted
+signal data_counter		    : integer := 0;
+-- signals for edge detection circuitry
+signal data				    : std_logic;
+signal data_follow 		    : std_logic;
+signal pos_edge			    : std_logic;
+-- shift register which holds the transmitted bits
+signal shift_reg: std_logic_vector(max_bits-1 downto 0) := (others => '0'); 
+signal data_reg : std_logic_vector(max_bits-1 downto 0) := (others => '0');
+signal temp	    : std_logic_vector(max_bits-1 downto 0) := (others => '0');
+
+-- state machine signals
+type state_type is (init, read_LC_on, check_LC_on_count, read_LC_off, 
+		check_LC_off_count, read_data, check_data);
+signal state, nxt_state		: state_type;
+
+-- The code is divided into different process: (i) LED process (ii) 7 Segment display (iii)State machine process
+-- LED signals
+--signal command			: std_logic_vector(7 downto 0); ---------------------------------------------------------------
+signal dt_rdy			: std_logic := '0'; -- Data ready
+signal LG_reg			: std_logic_vector(7 downto 0); -- Red LEDs
+
+ 
+
+
+begin
+	-- state machine processes 
+	-- Defining clock
+	state_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0') then
+				state <= init;   -- Based on the assignment sheet
+			else
+				state <= nxt_state;
+			end if;
+		end if;
+	end process state_proc;
+	nxt_state_proc : process(state, pos_edge, data, LC_on_counter,LC_off_counter, clock_counter, data_counter)
+	begin
+		nxt_state <= state;-- Initialization of the various states 
+		reading_LC_on  <= '0';
+		reading_LC_off <= '0';	
+		reading_data   <= '0';  
+		checking_data  <= '0'; 
+		
+	--- The entire state machine was developed based
+	--- on the details given in the assignment 
+	--- Nothing new was added
+		case state is
+			when init => 
+				if(data = '0') then
+					nxt_state <= read_LC_on;
+				else
+					nxt_state <= init;
+				end if;
+			when read_LC_on =>
+				reading_LC_on <= '1';
+				if(pos_edge = '1') then
+					nxt_state <= check_LC_on_count;
+				else
+					nxt_state <= read_LC_on;
+				end if;
+			when check_LC_on_count =>
+   if ((LC_on_counter < LC_on_max+trans_max) and    (LC_on_counter > LC_on_max-trans_max)) then
+					nxt_state <= read_LC_off;
+				else
+					nxt_state <= init;
+				end if;
+			when read_LC_off =>
+				reading_LC_off <= '1';
+				if(data = '0') then
+					nxt_state <= check_LC_off_count;
+				else
+					nxt_state <= read_LC_off;
+				end if;
+			when check_LC_off_count =>
+if ((LC_off_counter < LC_off_max+trans_max) and (LC_off_counter > LC_off_max-trans_max)) then
+					nxt_state <= read_data;
+elsif ((LC_off_counter < LC_off_repeat_max+trans_max) and (LC_off_counter > LC_off_repeat_max-trans_max)) then
+					nxt_state <= init;
+				else
+					nxt_state <= init;
+				end if;
+			when read_data =>
+				reading_data <= '1';
+				if(pos_edge = '1') then
+					nxt_state <= check_data;
+				else
+					nxt_state <= read_data;
+				end if;				
+			when check_data =>
+				checking_data <= '1';
+				if(data_counter /= (max_bits-1)) then -- check data_counter for 32bits
+					nxt_state <= read_data;
+				else
+					nxt_state <= init;
+				end if;
+				
+			when others =>
+				nxt_state <= init;
+		end case;				
+	end process nxt_state_proc;
+	
+	
+	-- Pulse detection circuitry
+	pos_edge <= data and data_follow;
+-----------------------------------------------------------------------------------	
+	pos_edge_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0') then
+				data <= '0';
+				data_follow <= '0';
+			else
+				data <= data_in;
+				data_follow <= not data;
+			end if;
+		end if;
+	end process pos_edge_proc;	
+------------------------------------------------------------------------------------	
+	
+	
+	LC_on_counter_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if((reset = '0') or (LC_on_counter = LC_on_max+trans_max)) then
+				LC_on_counter <= 0;
+			elsif(reading_LC_on = '1') then
+				LC_on_counter <= LC_on_counter + 1;
+			else
+				LC_on_counter <= 0;
+			end if;
+		end if;
+	end process LC_on_counter_proc;	
+------------------------------------------------------------------------------------	
+	-- LC_off counter
+	-- Based on the state machine
+	-- Either reset or in the buffer mode (2% tolerance)
+	LC_off_counter_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+if((reset = '0') or(LC_off_counter = LC_off_max+trans_max))   then
+				LC_off_counter <= 0;
+			elsif(reading_LC_off = '1') then
+				LC_off_counter <= LC_off_counter + 1;
+			else
+				LC_off_counter <= 0;
+			end if;
+		end if;
+	end process LC_off_counter_proc;	
+------------------------------------------------------------------------------------	
+		
+	-- clock counter can be written as process :
+	cc_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+if((reset = '0') or (clock_counter = one_clocks+trans_max) or checking_data = '1') then
+				clock_counter <= 0;
+			elsif(reading_data = '1') then
+				clock_counter <= clock_counter + 1;
+			else
+				clock_counter <= 0;
+			end if;
+		end if;
+	end process cc_proc;
+-------------------------------------------------------------------------------------	
+	--To find the nature of the bit that is transmitted
+	rd_data <= data_bit;	
+-------------------------------------------------------------------------------------	
+	data_bit_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0') then
+				data_bit <= '0';
+			elsif(checking_data = '1') then
+if((clock_counter < one_clocks+trans_max) and (clock_counter > one_clocks-trans_max)) then
+						data_bit <= '1';	
+elsif((clock_counter < zero_clocks+trans_max) and (clock_counter > zero_clocks-trans_max)) then
+						data_bit <= '0';
+					end if;	
+			end if;
+		end if;
+	end process data_bit_proc;
+-------------------------------------------------------------------------------------	
+--  data counter process
+	dc_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0' or data_counter = max_bits) then
+				data_counter <= 0;
+			elsif(checking_data = '1') then
+				data_counter <= data_counter + 1;
+			end if;
+		end if;
+	end process dc_proc;
+	
+	--This is the process  to allow the shift register:
+	shift_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0') then
+				shift_reg <= (others => '0');
+			elsif(clock_counter = 0 and data_counter /= (max_bits-1)) then
+				shift_reg <= data_bit & shift_reg(max_bits-1 downto 1);
+ 			end if;
+		end if;
+	end process shift_proc;		
+
+------------------------------------------------------------------------------------	
+	--final check and store 32 bits data, data reg process
+	dr_reg_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0') then
+				data_reg <= (others => '0');
+				temp <= (others => '0');
+			elsif(data_counter = max_bits) then
+		      data_reg <= shift_reg(1 downto 0) & shift_reg(max_bits-1 downto 2);
+			
+				dt_rdy <= '1';	
+					
+			else
+			   dt_rdy <= '0';		  
+			end if;
+		end if;
+	end process dr_reg_proc;	
+	
+	
+	--- Command Discrimination and Execution
+	command2 <= data_reg(23 downto 16);-- be carrefull this allow to display "00" or "01"
+	-- "00" -> for the initial keypressed  
+	-- "01" -> for the repeated keypressed
+
+
+-----------------------------------------------------------------------------------	
+	initial_proc : process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset = '0') then
+				LG_reg <= (others => '0');
+			end if ;
+		end if;
+	end process initial_proc;	
+	
+
+	
+end bvh;

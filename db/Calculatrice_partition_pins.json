@@ -1,0 +1,257 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "A_ext[0]",
+					"strict" : false
+				},
+				{
+					"name" : "A_ext[1]",
+					"strict" : false
+				},
+				{
+					"name" : "A_ext[2]",
+					"strict" : false
+				},
+				{
+					"name" : "A_ext[3]",
+					"strict" : false
+				},
+				{
+					"name" : "B_ext[0]",
+					"strict" : false
+				},
+				{
+					"name" : "B_ext[1]",
+					"strict" : false
+				},
+				{
+					"name" : "B_ext[2]",
+					"strict" : false
+				},
+				{
+					"name" : "B_ext[3]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[1]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[2]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[3]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[4]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[5]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[6]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[7]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[13]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_A[14]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[1]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[2]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[3]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[4]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[5]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[6]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[7]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[13]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_B[14]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[1]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[2]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[3]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[4]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[5]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[6]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[7]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[9]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[10]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[11]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[12]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[13]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[14]",
+					"strict" : false
+				},
+				{
+					"name" : "affich_Res[15]",
+					"strict" : false
+				},
+				{
+					"name" : "led[0]",
+					"strict" : false
+				},
+				{
+					"name" : "led[1]",
+					"strict" : false
+				},
+				{
+					"name" : "led[2]",
+					"strict" : false
+				},
+				{
+					"name" : "led[3]",
+					"strict" : false
+				},
+				{
+					"name" : "led[4]",
+					"strict" : false
+				},
+				{
+					"name" : "led[5]",
+					"strict" : false
+				},
+				{
+					"name" : "led[6]",
+					"strict" : false
+				},
+				{
+					"name" : "led[7]",
+					"strict" : false
+				},
+				{
+					"name" : "led[8]",
+					"strict" : false
+				},
+				{
+					"name" : "led[9]",
+					"strict" : false
+				},
+				{
+					"name" : "buzzer",
+					"strict" : false
+				},
+				{
+					"name" : "int_saisit_temp[0]",
+					"strict" : false
+				},
+				{
+					"name" : "int_saisit_temp[1]",
+					"strict" : false
+				},
+				{
+					"name" : "int_saisit_temp[2]",
+					"strict" : false
+				},
+				{
+					"name" : "int_saisit_temp[3]",
+					"strict" : false
+				},
+				{
+					"name" : "int_operation",
+					"strict" : false
+				},
+				{
+					"name" : "int_CLA",
+					"strict" : false
+				},
+				{
+					"name" : "int_signeB",
+					"strict" : false
+				},
+				{
+					"name" : "int_signeA",
+					"strict" : false
+				},
+				{
+					"name" : "int_saisit",
+					"strict" : false
+				},
+				{
+					"name" : "clock",
+					"strict" : false
+				},
+				{
+					"name" : "b_resetBuzzer",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
