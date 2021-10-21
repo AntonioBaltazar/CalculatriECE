@@ -1,6 +1,6 @@
 # Calculatri'ECE-VHDL
 *** 
-# Bonjour et bienvenue dans mon projet Calculatri'ECE, il s'agit d'un projet proposé par l'ECE Paris aux étudiants de 2ème année du cycle préparatoire ingénieur de l'année scolaire 2021 - 2022.
+### Bonjour et bienvenue dans mon projet Calculatri'ECE, il s'agit d'un projet proposé par l'ECE Paris aux étudiants de 2ème année du cycle préparatoire ingénieur de l'année scolaire 2021 - 2022.
 
 *** 
 
