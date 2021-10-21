@@ -15,7 +15,12 @@ place ainsi que les schémas de nos circuits électroniques.
 Pour lancer le projet sur Quartus, double-cliquer sur "Calculatrice.qpf" et tout le projet se lancera.
 Pour simplement voir les codes de chacun des fichiers .vhd vous retrouverez un dossier "VHD Files" :
 
-#####  - _Calculatrice_ : Fichier principal gérant l'appel des différents sous-programmes de manière récursive
+  * _Calculatrice_Entity_ : Fichier principal gérant l'appel des différents sous-programmes de manière récursive
+  *  CEded
+  *  ded
+  *  dede
+  *  dede
+  *  
 
 
 
