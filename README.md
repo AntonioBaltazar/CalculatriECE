@@ -16,7 +16,7 @@ Pour lancer le projet sur Quartus, double-cliquer sur "Calculatrice.qpf" et tout
 Pour simplement voir les codes de chacun des fichiers .vhd vous retrouverez un dossier "VHD Files" :
 
   * _Calculatrice_Entity_ : Fichier principal gérant l'appel des différents sous-programmes de manière récursive
-  *  -Nec_receiver- : Permet de recevoir le signal infrarouge 
+  *  _Nec_receiver_ : Permet de recevoir le signal infrarouge 
   * _Conversion_signal_ : Pemert de convertir le signal infrarouge recu en une combinaison binaire
   * _Calcul_entity_ : C'est ici que seront implémenter les fonction de calculs de la calculatrice
   * _Affichage_entity_ : Affiche les deux opérandes ainsi que le résultat
